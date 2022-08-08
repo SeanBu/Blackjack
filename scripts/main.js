@@ -6,6 +6,7 @@ const playerArea = document.querySelector('.player-area');
 const newGameButton = document.querySelector('#new-game');
 
 newGameButton.addEventListener('click', newGame);
+hitButton.addEventListener('click', hit);
 
 class Card {
     constructor(suit, value, picture) {
@@ -23,7 +24,6 @@ createHearts();
 createSpades();
 createDiamonds();
 createClubs();
-console.log(deck);
 
 initialDeal();
 console.log('player hand: ', playerHand);
@@ -105,5 +105,11 @@ function newGame() {
 }
 
 function hit() {
-
+    randNum = Math.floor(Math.random() * deck.length);
+    playerHand.push(deck[randNum]);
+    discardPile.push(deck[randNum]);
+    deck.splice(randNum, 1);
+    console.log('player hand: ', playerHand);
+    console.log('discard pile: ', discardPile);
+    console.log('deck: ', deck);
 }
