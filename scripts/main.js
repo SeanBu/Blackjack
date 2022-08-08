@@ -3,6 +3,9 @@ const stayButton = document.querySelector('#stay');
 const cpuArea = document.querySelector('.cpu-area');
 const gameMessageArea = document.querySelector('.game-messages');
 const playerArea = document.querySelector('.player-area');
+const newGameButton = document.querySelector('#new-game');
+
+newGameButton.addEventListener('click', newGame);
 
 class Card {
     constructor(suit, value, picture) {
@@ -11,10 +14,10 @@ class Card {
     }
 }
 
-const deck = [];
-const discardPile = [];
-const playerHand = [];
-const cpuHand = [];
+let deck = [];
+let discardPile = [];
+let playerHand = [];
+let cpuHand = [];
 
 createHearts();
 createSpades();
@@ -82,6 +85,23 @@ function initialDeal() {
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
     }
+}
+
+function newGame() {
+    deck = [];
+    discardPile = [];
+    playerHand = [];
+    cpuHand = [];
+    createHearts();
+    createSpades();
+    createDiamonds();
+    createClubs();
+    initialDeal();
+
+    console.log('player hand: ', playerHand);
+    console.log('cpu hand: ', cpuHand);
+    console.log('discard pile: ', discardPile);
+    console.log('deck: ', deck);
 }
 
 function hit() {
