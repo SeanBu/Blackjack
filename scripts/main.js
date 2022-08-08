@@ -8,6 +8,7 @@ const newGameButton = document.querySelector('#new-game');
 newGameButton.addEventListener('click', newGame);
 hitButton.addEventListener('click', hit);
 
+// class that all of our cards will use
 class Card {
     constructor(suit, value, picture) {
         this.suit = suit;
@@ -25,17 +26,13 @@ class Card {
     }
 }
 
-let deck = [];
-let discardPile = [];
-let playerHand = [];
-let cpuHand = [];
+let deck = []; // the deck of cards from which the player and cpu are drawing from
+let discardPile = []; // the cards that have been already played
+let playerHand = []; // the cards that the player currently holds
+let cpuHand = []; // the cards that the cpu currently holds
 
-createHearts();
-createSpades();
-createDiamonds();
-createClubs();
+newGame(); // sets up the game when the page is loaded and also makes a new game when the 'new game; button is pressed.
 
-initialDeal();
 console.log('player hand: ', playerHand);
 console.log('cpu hand: ', cpuHand);
 console.log('discard pile: ', discardPile);
@@ -87,6 +84,7 @@ function createClubs() {
     }
 }
 
+// gives 2 cards to the player and cpu randomly the deck[]. The cards are assigned 1 at a time to each player and cpu
 function initialDeal() {
     for (let i = 0; i <= 1; i++) {
         let randNum = Math.floor(Math.random() * deck.length);
@@ -98,8 +96,11 @@ function initialDeal() {
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
     }
+    // display the pictures of the cards based off of what is in the player and cpu hand
     playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
     <img src=${playerHand[1].getPicture()}>`;
+    cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
+    <img src=${cpuHand[1].getPicture()}>`;
     gameMessageArea.innerHTML = `total: ${playerHand[0].getValue() + playerHand[1].getValue()}`;
 }
 
