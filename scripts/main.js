@@ -1,18 +1,32 @@
+const hitButton = document.querySelector('#hit');
+const stayButton = document.querySelector('#stay');
+const cpuArea = document.querySelector('.cpu-area');
+const gameMessageArea = document.querySelector('.game-messages');
+const playerArea = document.querySelector('.player-area');
+
 class Card {
-    constructor(suit, value) {
+    constructor(suit, value, picture) {
         this.suit = suit;
         this.value = value;
     }
 }
 
-let deck = [];
-let discardPile = [];
+const deck = [];
+const discardPile = [];
+const playerHand = [];
+const cpuHand = [];
 
 createHearts();
 createSpades();
 createDiamonds();
 createClubs();
 console.log(deck);
+
+initialDeal();
+console.log('player hand: ', playerHand);
+console.log('cpu hand: ', cpuHand);
+console.log('discard pile: ', discardPile);
+console.log('deck: ', deck);
 
 //if card.value = 1 then value = 1 or 11?
 
@@ -57,4 +71,19 @@ function createClubs() {
     }
 }
 
+function initialDeal() {
+    for (let i = 0; i <= 1; i++) {
+        let randNum = Math.floor(Math.random() * deck.length);
+        playerHand.push(deck[randNum]);
+        discardPile.push(deck[randNum]);
+        deck.splice(randNum, 1);
+        randNum = Math.floor(Math.random() * deck.length);
+        cpuHand.push(deck[randNum]);
+        discardPile.push(deck[randNum]);
+        deck.splice(randNum, 1);
+    }
+}
 
+function hit() {
+
+}
