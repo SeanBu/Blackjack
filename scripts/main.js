@@ -100,6 +100,7 @@ function initialDeal() {
     }
     playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
     <img src=${playerHand[1].getPicture()}>`;
+    gameMessageArea.innerHTML = `total: ${playerHand[0].getValue() + playerHand[1].getValue()}`;
 }
 
 function newGame() {
@@ -117,6 +118,12 @@ function newGame() {
 function hit() {
     randNum = Math.floor(Math.random() * deck.length);
     playerHand.push(deck[randNum]);
+    playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
+    let sum = 0;
+    for (let i = 0; i < playerHand.length; i++) {
+        sum += playerHand[i].getValue();
+    }
+    gameMessageArea.innerHTML = `total: ${sum}`;
     discardPile.push(deck[randNum]);
     deck.splice(randNum, 1);
 }
