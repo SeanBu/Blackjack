@@ -12,6 +12,16 @@ class Card {
     constructor(suit, value, picture) {
         this.suit = suit;
         this.value = value;
+        this.picture = picture
+    }
+
+    getValue() {
+        //check if value is 1 and return an array of 1 and 11?
+        return this.value;
+    }
+
+    getPicture() {
+        return this.picture;
     }
 }
 
@@ -34,12 +44,15 @@ console.log('deck: ', deck);
 //if card.value = 1 then value = 1 or 11?
 
 //13 cards per suit
+// creates 13 instances of the Card class and adds them to an array called Deck
+// asigns a suit, value of the card (im black jack vaules are 1-10 and the ace is either 1 or 11)
+// assigns the path to the image of the card
 function createHearts() {
     for (let i = 0; i < 13; i++) {
         if (i < 10) {
-            deck.push(new Card('Hearts', i + 1));
+            deck.push(new Card('Hearts', i + 1, `./cards/H${i + 1}.png`));
         } else {
-            deck.push(new Card('Hearts', 10));
+            deck.push(new Card('Hearts', 10, `./cards/H${i + 1}.png`));
         }
     }
 }
@@ -47,9 +60,9 @@ function createHearts() {
 function createSpades() {
     for (let i = 0; i < 13; i++) {
         if (i < 10) {
-            deck.push(new Card('Spades', i + 1));
+            deck.push(new Card('Spades', i + 1, `./cards/S${i + 1}.png`));
         } else {
-            deck.push(new Card('Spades', 10));
+            deck.push(new Card('Spades', 10, `./cards/S${i + 1}.png`));
         }
     }
 }
@@ -57,9 +70,9 @@ function createSpades() {
 function createDiamonds() {
     for (let i = 0; i < 13; i++) {
         if (i < 10) {
-            deck.push(new Card('Diamonds', i + 1));
+            deck.push(new Card('Diamonds', i + 1, `./cards/D${i + 1}.png`));
         } else {
-            deck.push(new Card('Diamonds', 10));
+            deck.push(new Card('Diamonds', 10, `./cards/D${i + 1}.png`));
         }
     }
 }
@@ -67,9 +80,9 @@ function createDiamonds() {
 function createClubs() {
     for (let i = 0; i < 13; i++) {
         if (i < 10) {
-            deck.push(new Card('Clubs', i + 1));
+            deck.push(new Card('Clubs', i + 1, `./cards/C${i + 1}.png`));
         } else {
-            deck.push(new Card('Clubs', 10));
+            deck.push(new Card('Clubs', 10, `./cards/C${i + 1}.png`));
         }
     }
 }
@@ -85,6 +98,8 @@ function initialDeal() {
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
     }
+    playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
+    <img src=${playerHand[1].getPicture()}>`;
 }
 
 function newGame() {
@@ -97,11 +112,6 @@ function newGame() {
     createDiamonds();
     createClubs();
     initialDeal();
-
-    console.log('player hand: ', playerHand);
-    console.log('cpu hand: ', cpuHand);
-    console.log('discard pile: ', discardPile);
-    console.log('deck: ', deck);
 }
 
 function hit() {
@@ -109,7 +119,4 @@ function hit() {
     playerHand.push(deck[randNum]);
     discardPile.push(deck[randNum]);
     deck.splice(randNum, 1);
-    console.log('player hand: ', playerHand);
-    console.log('discard pile: ', discardPile);
-    console.log('deck: ', deck);
 }
