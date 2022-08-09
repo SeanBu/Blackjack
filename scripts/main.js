@@ -149,17 +149,20 @@ function stay() {
 }
 
 function computerHit() {
-    while (cpuSum < 17) {
-        randNum = Math.floor(Math.random() * deck.length);
-        cpuHand.push(deck[randNum]);
-        cpuSum += deck[randNum].getValue();
-        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
-        discardPile.push(deck[randNum]);
-        deck.splice(randNum, 1);
+    let interval = setInterval(() => {
+        if (cpuSum < 17) {
+            randNum = Math.floor(Math.random() * deck.length);
+            cpuHand.push(deck[randNum]);
+            cpuSum += deck[randNum].getValue();
+            gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+            discardPile.push(deck[randNum]);
+            deck.splice(randNum, 1);
+        } else {
+            clearInterval(interval);
+        }
+    }, 1000);
 
-    }
 }
-
 function checkForWinner() {
     if (cpuSum === 21 && playerSum === 21) {
 
