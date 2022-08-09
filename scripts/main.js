@@ -112,7 +112,7 @@ function initialDeal() {
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
     gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
-    checkForWinner();
+    checkForInitalWinner();
 
 }
 
@@ -141,11 +141,23 @@ function hit() {
         gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
+        if (playerSum > 21) {
+            gameMessageArea.innerHTML = `Sorry you busted.`;
+            playerStay = true;
+            cpuStay = true;
+        }
+    } else if (playerSum > 21) {
+        gameMessageArea.innerHTML = `Sorry you busted.`;
+        playerStay = true;
+        cpuStay = true;
     }
 }
 
 function stay() {
-    computerHit();
+    playerStay = true;
+    if (cpuStay === false) {
+        computerHit();
+    }
 }
 
 function computerHit() {
@@ -159,14 +171,40 @@ function computerHit() {
             discardPile.push(deck[randNum]);
             deck.splice(randNum, 1);
         } else {
+            checkForWinner();
             clearInterval(interval);
         }
-    }, 1000);
-
+    }, 1250);
 }
+
+function checkForInitalWinner() {
+    if (cpuSum === 21 && playerSum === 21) {
+        gameMessageArea.innerHTML = `It's a tie!`;
+        playerStay = true;
+        cpuStay = true;
+    } else if (cpuSum === 21) {
+        gameMessageArea.innerHTML = `The dealer wins with a blackjack.`;
+        playerStay = true;
+        cpuStay = true;
+    } else if (playerSum === 21) {
+        gameMessageArea.innerHTML = `Blackjack!! You won!`;
+        playerStay = true;
+        cpuStay = true;
+    }
+}
+
 function checkForWinner() {
     if (cpuSum === 21 && playerSum === 21) {
-
+        gameMessageArea.innerHTML = `It's a tie!`;
+    }
+    else if (playerSum > 21) {
+        gameMessageArea.innerHTML = `Sorry you busted`;
+    } else if (cpuSum > 21 && playerSum < 21) {
+        gameMessageArea.innerHTML = `Dealer busted! You won with: ${cpuSum}!`;
+    } else if (cpuSum > playerSum) {
+        gameMessageArea.innerHTML = `The dealer wins with: ${cpuSum}`;
+    } else if (cpuSum < playerSum) {
+        gameMessageArea.innerHTML = `Congratz! You won with: ${playerSum}!`;
     }
 
 }
