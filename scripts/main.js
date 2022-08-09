@@ -6,9 +6,18 @@ const playerArea = document.querySelector('.player-area');
 const newGameButton = document.querySelector('#new-game');
 
 let sum;
+let cpuSum;
+let playerStay;
+
+let deck = []; // the deck of cards from which the player and cpu are drawing from
+let discardPile = []; // the cards that have been already played
+let playerHand = []; // the cards that the player currently holds
+let cpuHand = []; // the cards that the cpu currently holds
 
 newGameButton.addEventListener('click', newGame);
 hitButton.addEventListener('click', hit);
+stayButton.addEventListener('click', stay);
+
 
 // class that all of our cards will use
 class Card {
@@ -28,10 +37,6 @@ class Card {
     }
 }
 
-let deck = []; // the deck of cards from which the player and cpu are drawing from
-let discardPile = []; // the cards that have been already played
-let playerHand = []; // the cards that the player currently holds
-let cpuHand = []; // the cards that the cpu currently holds
 
 newGame(); // sets up the game when the page is loaded and also makes a new game when the 'new game; button is pressed.
 
@@ -88,7 +93,6 @@ function createClubs() {
 
 // gives 2 cards to the player and cpu randomly the deck[]. The cards are assigned 1 at a time to each player and cpu
 function initialDeal() {
-    sum = 0;
     for (let i = 0; i <= 1; i++) {
         let randNum = Math.floor(Math.random() * deck.length);
         playerHand.push(deck[randNum]);
@@ -99,16 +103,21 @@ function initialDeal() {
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
         sum += playerHand[i].getValue();
+        cpuSum += cpuHand[i].getValue();
     }
     // display the pictures of the cards based off of what is in the player and cpu hand
     playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
     <img src=${playerHand[1].getPicture()}>`;
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
-    gameMessageArea.innerHTML = `total: ${sum}`;
+    gameMessageArea.innerHTML = `total: ${sum}, CPU Sum: ${cpuSum}`;
+
 }
 
 function newGame() {
+    sum = 0;
+    cpuSum = 0;
+    playerStay = false;
     deck = [];
     discardPile = [];
     playerHand = [];
@@ -121,13 +130,29 @@ function newGame() {
 }
 
 function hit() {
-    if (sum < 20) {
+    if (playerStay != false && sum < 21) {
         randNum = Math.floor(Math.random() * deck.length);
         playerHand.push(deck[randNum]);
         playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
         sum += deck[randNum].getValue();
-        gameMessageArea.innerHTML = `total: ${sum}`;
+        gameMessageArea.innerHTML = `total: ${sum}, CPU Sum: ${cpuSum}`;
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
+    }
+}
+
+function stay() {
+    computerHit();
+}
+
+function computerHit() {
+    while (cpuSum < 17) {
+        randNum = Math.floor(Math.random() * deck.length);
+        cpuHand.push(deck[randNum]);
+        cpuSum += deck[randNum].getValue();
+        gameMessageArea.innerHTML = `total: ${sum}, CPU Sum: ${cpuSum}`;
+        discardPile.push(deck[randNum]);
+        deck.splice(randNum, 1);
+
     }
 }
