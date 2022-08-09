@@ -5,6 +5,8 @@ const gameMessageArea = document.querySelector('.game-messages');
 const playerArea = document.querySelector('.player-area');
 const newGameButton = document.querySelector('#new-game');
 
+let sum;
+
 newGameButton.addEventListener('click', newGame);
 hitButton.addEventListener('click', hit);
 
@@ -42,7 +44,7 @@ console.log('deck: ', deck);
 
 //13 cards per suit
 // creates 13 instances of the Card class and adds them to an array called Deck
-// asigns a suit, value of the card (im black jack vaules are 1-10 and the ace is either 1 or 11)
+// assigns a suit, value of the card (in black jack values are 1-10 and the ace is either 1 or 11)
 // assigns the path to the image of the card
 function createHearts() {
     for (let i = 0; i < 13; i++) {
@@ -86,6 +88,7 @@ function createClubs() {
 
 // gives 2 cards to the player and cpu randomly the deck[]. The cards are assigned 1 at a time to each player and cpu
 function initialDeal() {
+    sum = 0;
     for (let i = 0; i <= 1; i++) {
         let randNum = Math.floor(Math.random() * deck.length);
         playerHand.push(deck[randNum]);
@@ -95,13 +98,14 @@ function initialDeal() {
         cpuHand.push(deck[randNum]);
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
+        sum += playerHand[i].getValue();
     }
     // display the pictures of the cards based off of what is in the player and cpu hand
     playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
     <img src=${playerHand[1].getPicture()}>`;
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
-    gameMessageArea.innerHTML = `total: ${playerHand[0].getValue() + playerHand[1].getValue()}`;
+    gameMessageArea.innerHTML = `total: ${sum}`;
 }
 
 function newGame() {
@@ -117,14 +121,13 @@ function newGame() {
 }
 
 function hit() {
-    randNum = Math.floor(Math.random() * deck.length);
-    playerHand.push(deck[randNum]);
-    playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
-    let sum = 0;
-    for (let i = 0; i < playerHand.length; i++) {
-        sum += playerHand[i].getValue();
+    if (sum < 20) {
+        randNum = Math.floor(Math.random() * deck.length);
+        playerHand.push(deck[randNum]);
+        playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
+        sum += deck[randNum].getValue();
+        gameMessageArea.innerHTML = `total: ${sum}`;
+        discardPile.push(deck[randNum]);
+        deck.splice(randNum, 1);
     }
-    gameMessageArea.innerHTML = `total: ${sum}`;
-    discardPile.push(deck[randNum]);
-    deck.splice(randNum, 1);
 }
