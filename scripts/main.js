@@ -5,9 +5,10 @@ const gameMessageArea = document.querySelector('.game-messages');
 const playerArea = document.querySelector('.player-area');
 const newGameButton = document.querySelector('#new-game');
 
-let sum;
+let playerSum;
 let cpuSum;
 let playerStay;
+let cpuStay;
 
 let deck = []; // the deck of cards from which the player and cpu are drawing from
 let discardPile = []; // the cards that have been already played
@@ -102,7 +103,7 @@ function initialDeal() {
         cpuHand.push(deck[randNum]);
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
-        sum += playerHand[i].getValue();
+        playerSum += playerHand[i].getValue();
         cpuSum += cpuHand[i].getValue();
     }
     // display the pictures of the cards based off of what is in the player and cpu hand
@@ -110,14 +111,16 @@ function initialDeal() {
     <img src=${playerHand[1].getPicture()}>`;
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
-    gameMessageArea.innerHTML = `total: ${sum}, CPU Sum: ${cpuSum}`;
+    gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+    checkForWinner();
 
 }
 
 function newGame() {
-    sum = 0;
+    playerSum = 0;
     cpuSum = 0;
     playerStay = false;
+    cpuStay = false;
     deck = [];
     discardPile = [];
     playerHand = [];
@@ -130,12 +133,12 @@ function newGame() {
 }
 
 function hit() {
-    if (playerStay != false && sum < 21) {
+    if (playerStay === false && playerSum < 21) {
         randNum = Math.floor(Math.random() * deck.length);
         playerHand.push(deck[randNum]);
         playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
-        sum += deck[randNum].getValue();
-        gameMessageArea.innerHTML = `total: ${sum}, CPU Sum: ${cpuSum}`;
+        playerSum += deck[randNum].getValue();
+        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
     }
@@ -150,9 +153,16 @@ function computerHit() {
         randNum = Math.floor(Math.random() * deck.length);
         cpuHand.push(deck[randNum]);
         cpuSum += deck[randNum].getValue();
-        gameMessageArea.innerHTML = `total: ${sum}, CPU Sum: ${cpuSum}`;
+        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
 
     }
+}
+
+function checkForWinner() {
+    if (cpuSum === 21 && playerSum === 21) {
+
+    }
+
 }
