@@ -153,6 +153,7 @@ function computerHit() {
         if (cpuSum < 17) {
             randNum = Math.floor(Math.random() * deck.length);
             cpuHand.push(deck[randNum]);
+            cpuArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
             cpuSum += deck[randNum].getValue();
             gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
             discardPile.push(deck[randNum]);
