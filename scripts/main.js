@@ -39,15 +39,7 @@ class Card {
     }
 }
 
-
-newGame(); // sets up the game when the page is loaded and also makes a new game when the 'new game; button is pressed.
-
-console.log('player hand: ', playerHand);
-console.log('cpu hand: ', cpuHand);
-console.log('discard pile: ', discardPile);
-console.log('deck: ', deck);
-
-//if card.value = 1 then value = 1 or 11?
+newGame(); // sets up the game when the page is loaded and also makes a new game when the new game button is pressed.
 
 //13 cards per suit
 // creates 13 instances of the Card class and adds them to an array called Deck
@@ -118,11 +110,6 @@ function initialDeal() {
             cpuSum += cpuHand[i].getValue();
             cpuSumA += cpuHand[i].getValue();
         }
-
-
-
-        //playerSum += playerHand[i].getValue();
-        //cpuSum += cpuHand[i].getValue();
     }
     // display the pictures of the cards based off of what is in the player and cpu hand
     playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
@@ -135,7 +122,6 @@ function initialDeal() {
         gameMessageArea.innerHTML = `total: ${playerSum}, Dealer Sum: ${cpuHand[0].getValue()}`;
     }
     checkForInitalWinner();
-
 }
 
 function newGame() {
@@ -162,7 +148,7 @@ function hit() {
         playerHand.push(deck[randNum]);
         playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
         playerSum += deck[randNum].getValue();
-        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuHand[0].getValue()}`;
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
         if (playerSum > 21) {
@@ -188,6 +174,7 @@ function stay() {
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
     cpuSum = cpuHand[0].getValue() + cpuHand[1].getValue();
+    gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
 }
 
 function computerHit() {
@@ -213,6 +200,8 @@ function checkForInitalWinner() {
         playerStay = true;
         cpuStay = true;
     } else if (cpuSum === 21 || cpuSumA === 21) {
+        cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
+    <img src=${cpuHand[1].getPicture()}>`;
         gameMessageArea.innerHTML = `The dealer wins with a blackjack.`;
         playerStay = true;
         cpuStay = true;
