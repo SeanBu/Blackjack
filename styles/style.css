@@ -4,12 +4,11 @@ html {
 
 body {
     font-family: 'Oswald', sans-serif;
-    font-family: 'Roboto', sans-serif;
     display: grid;
     height: 100%;
     background-color: black;
     color: white;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr, 1fr, 1fr, 1fr;
     text-shadow: 0 0 2px white, 0 0 5px rgb(61, 255, 47), 0 0 15px rgb(61, 255, 47), 0 0 30px rgb(61, 255, 47), 0 0 70px rgb(61, 255, 47);
 }
@@ -32,8 +31,20 @@ button {
     box-shadow: 0 0 .2em rgb(61, 255, 47), 0 0 .2em rgb(61, 255, 47), 0 0 .2em rgb(61, 255, 47);
 }
 
+ul {
+    list-style: none;
+}
+
+.gameinfo {
+    grid-row: 1 / span 3;
+    grid-column: 1;
+    font-size: 125%;
+    text-shadow: 0 0 2px white, 0 0 5px rgb(61, 255, 47), 0 0 15px rgb(61, 255, 47), 0 0 30px rgb(61, 255, 47), 0 0 70px rgb(61, 255, 47);
+}
+
 .cpu-area {
     grid-row: 1 / span 1fr;
+    grid-column: 2;
     display: flex;
     justify-content: center;
     margin-top: 120px;
@@ -41,6 +52,7 @@ button {
 
 .game-messages {
     grid-row: 2 / span 1fr;
+    grid-column: 2;
     display: flex;
     justify-content: center;
     font-weight: bolder;
@@ -49,12 +61,14 @@ button {
 
 .player-area {
     grid-row: 3 / span 1fr;
+    grid-column: 2;
     display: flex;
     justify-content: center;
 }
 
 .button-area {
     grid-row: 4 / span 1fr;
+    grid-column: 2;
     display: flex;
     justify-content: center;
 }
