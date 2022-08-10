@@ -6,7 +6,9 @@ const playerArea = document.querySelector('.player-area');
 const newGameButton = document.querySelector('#new-game');
 
 let playerSum;
+let playerSumA;
 let cpuSum;
+let cpuSumA;
 let playerStay;
 let cpuStay;
 
@@ -29,7 +31,6 @@ class Card {
     }
 
     getValue() {
-        //check if value is 1 and return an array of 1 and 11?
         return this.value;
     }
 
@@ -103,22 +104,45 @@ function initialDeal() {
         cpuHand.push(deck[randNum]);
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
-        playerSum += playerHand[i].getValue();
-        cpuSum += cpuHand[i].getValue();
+        if (playerHand[i].getValue() === 1) {
+            playerSum += playerHand[i].getValue();
+            playerSumA += playerHand[i].getValue() + 10;
+        } else if (playerHand[i].getValue() !== 1) {
+            playerSum += playerHand[i].getValue();
+            playerSumA += playerHand[i].getValue();
+        }
+        if (cpuHand[i].getValue() === 1) {
+            cpuSum += cpuHand[i].getValue();
+            cpuSumA += cpuHand[i].getValue() + 10;
+        } else if (cpuHand[i].getValue() !== 1) {
+            cpuSum += cpuHand[i].getValue();
+            cpuSumA += cpuHand[i].getValue();
+        }
+
+
+
+        //playerSum += playerHand[i].getValue();
+        //cpuSum += cpuHand[i].getValue();
     }
     // display the pictures of the cards based off of what is in the player and cpu hand
     playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
     <img src=${playerHand[1].getPicture()}>`;
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
-    gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+    if (playerHand[0].getValue() === 1 || playerHand[1].getValue() === 1) {
+        gameMessageArea.innerHTML = `total: ${playerSum} or ${playerSumA}, Dealer Sum: ${cpuSum}`;
+    } else if (playerHand[0].getValue() > 1 && playerHand[1].getValue() > 1) {
+        gameMessageArea.innerHTML = `total: ${playerSum}, Dealer Sum: ${cpuSum}`;
+    }
     checkForInitalWinner();
 
 }
 
 function newGame() {
     playerSum = 0;
+    playerSumA = 0;
     cpuSum = 0;
+    cpuSumA = 0;
     playerStay = false;
     cpuStay = false;
     deck = [];
@@ -155,6 +179,9 @@ function hit() {
 
 function stay() {
     playerStay = true;
+    if (playerSum < playerSumA) {
+        playerSum = playerSumA;
+    }
     if (cpuStay === false) {
         computerHit();
     }
@@ -167,26 +194,26 @@ function computerHit() {
             cpuHand.push(deck[randNum]);
             cpuArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
             cpuSum += deck[randNum].getValue();
-            gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+            gameMessageArea.innerHTML = `total: ${playerSum}, Dealer Sum: ${cpuSum}`;
             discardPile.push(deck[randNum]);
             deck.splice(randNum, 1);
         } else {
             checkForWinner();
             clearInterval(interval);
         }
-    }, 1250);
+    }, 1000);
 }
 
 function checkForInitalWinner() {
-    if (cpuSum === 21 && playerSum === 21) {
+    if (cpuSum === 21 && playerSum === 21 || playerSumA === 21 && cpuSumA === 21) {
         gameMessageArea.innerHTML = `It's a tie!`;
         playerStay = true;
         cpuStay = true;
-    } else if (cpuSum === 21) {
+    } else if (cpuSum === 21 || cpuSumA === 21) {
         gameMessageArea.innerHTML = `The dealer wins with a blackjack.`;
         playerStay = true;
         cpuStay = true;
-    } else if (playerSum === 21) {
+    } else if (playerSum === 21 || playerSumA === 21) {
         gameMessageArea.innerHTML = `Blackjack!! You won!`;
         playerStay = true;
         cpuStay = true;
@@ -194,7 +221,7 @@ function checkForInitalWinner() {
 }
 
 function checkForWinner() {
-    if (cpuSum === 21 && playerSum === 21) {
+    if (cpuSum === 21 && playerSum === 21 || playerSumA === 21 && cpuSumA === 21) {
         gameMessageArea.innerHTML = `It's a tie!`;
     }
     else if (playerSum > 21) {
@@ -206,5 +233,4 @@ function checkForWinner() {
     } else if (cpuSum < playerSum) {
         gameMessageArea.innerHTML = `Congratz! You won with: ${playerSum}!`;
     }
-
 }
