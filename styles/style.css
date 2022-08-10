@@ -7,9 +7,11 @@ body {
     font-family: 'Roboto', sans-serif;
     display: grid;
     height: 100%;
-    background-color: darkgreen;
+    background-color: black;
+    color: white;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr, 1fr, 1fr, 1fr;
+    text-shadow: 0 0 2px white, 0 0 5px rgb(61, 255, 47), 0 0 15px rgb(61, 255, 47), 0 0 30px rgb(61, 255, 47), 0 0 70px rgb(61, 255, 47);
 }
 
 img {
@@ -19,12 +21,15 @@ img {
 }
 
 button {
-    background-color: rgb(251, 15, 12);
-    box-shadow: 0px 8px black;
+    background-color: transparent;
+    border: none;
+    border-radius: 10%;
+    color: white;
     font-size: 50px;
-    border-radius: 50%;
     padding: 20px;
-    margin: 5px;
+    margin: 15px;
+    text-shadow: 0 0 2px white, 0 0 5px rgb(61, 255, 47), 0 0 15px rgb(61, 255, 47), 0 0 30px rgb(61, 255, 47), 0 0 70px rgb(61, 255, 47);
+    box-shadow: 0 0 .2em rgb(61, 255, 47), 0 0 .2em rgb(61, 255, 47), 0 0 .2em rgb(61, 255, 47);
 }
 
 .cpu-area {

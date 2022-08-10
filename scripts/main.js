@@ -228,7 +228,7 @@ function checkForWinner() {
         playerStay = true;
         cpuStay = true;
     } else if (cpuSum > 21 && playerSum <= 21) {
-        gameMessageArea.innerHTML = `Dealer busted! You won with: ${cpuSum}!`;
+        gameMessageArea.innerHTML = `Dealer busted! You won with: ${playerSum}!`;
         playerStay = true;
         cpuStay = true;
     } else if (cpuSum > playerSum) {
