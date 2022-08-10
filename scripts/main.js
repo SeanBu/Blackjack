@@ -128,11 +128,11 @@ function initialDeal() {
     playerArea.innerHTML = `<img src=${playerHand[0].getPicture()}> 
     <img src=${playerHand[1].getPicture()}>`;
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
-    <img src=${cpuHand[1].getPicture()}>`;
+    <img src=./cards/red2.png>`;
     if (playerHand[0].getValue() === 1 || playerHand[1].getValue() === 1) {
-        gameMessageArea.innerHTML = `total: ${playerSum} or ${playerSumA}, Dealer Sum: ${cpuSum}`;
+        gameMessageArea.innerHTML = `total: ${playerSum} or ${playerSumA}, Dealer Sum: ${cpuHand[0].getValue()}`;
     } else if (playerHand[0].getValue() > 1 && playerHand[1].getValue() > 1) {
-        gameMessageArea.innerHTML = `total: ${playerSum}, Dealer Sum: ${cpuSum}`;
+        gameMessageArea.innerHTML = `total: ${playerSum}, Dealer Sum: ${cpuHand[0].getValue()}`;
     }
     checkForInitalWinner();
 
@@ -179,12 +179,15 @@ function hit() {
 
 function stay() {
     playerStay = true;
-    if (playerSum < playerSumA) {
+    if (playerSum < playerSumA && playerSumA <= 21) {
         playerSum = playerSumA;
     }
     if (cpuStay === false) {
         computerHit();
     }
+    cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
+    <img src=${cpuHand[1].getPicture()}>`;
+    cpuSum = cpuHand[0].getValue() + cpuHand[1].getValue();
 }
 
 function computerHit() {
@@ -222,7 +225,7 @@ function checkForInitalWinner() {
 
 function checkForWinner() {
     if (cpuSum === 21 && playerSum === 21 || playerSumA === 21 && cpuSumA === 21) {
-        gameMessageArea.innerHTML = `It's a tie!`;
+        gameMessageArea.innerHTML = `It's a tie! Both dealer and player have 21`;
     }
     else if (playerSum > 21) {
         gameMessageArea.innerHTML = `Sorry you busted`;
@@ -232,5 +235,7 @@ function checkForWinner() {
         gameMessageArea.innerHTML = `The dealer wins with: ${cpuSum}`;
     } else if (cpuSum < playerSum) {
         gameMessageArea.innerHTML = `Congratz! You won with: ${playerSum}!`;
+    } else if (cpuSum >= 17 && playerSum === cpuSum) {
+        gameMessageArea.innerHTML = `It's a tie! Both dealer and player had: ${playerSum}!`;
     }
 }
