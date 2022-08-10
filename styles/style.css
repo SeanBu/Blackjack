@@ -39,7 +39,7 @@ ul {
     grid-row: 1 / span 3;
     grid-column: 1;
     font-size: 125%;
-    text-shadow: 0 0 2px white, 0 0 5px rgb(61, 255, 47), 0 0 15px rgb(61, 255, 47), 0 0 30px rgb(61, 255, 47), 0 0 70px rgb(61, 255, 47);
+    text-shadow: 0 0 2px white, 0 0 5px rgb(61, 255, 47), 0 0 15px rgb(61, 255, 47), 0 0 30px rgb(61, 255, 47);
 }
 
 .cpu-area {

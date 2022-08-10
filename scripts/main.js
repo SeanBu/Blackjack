@@ -117,9 +117,9 @@ function initialDeal() {
     cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=./cards/red2.png>`;
     if (playerHand[0].getValue() === 1 || playerHand[1].getValue() === 1) {
-        gameMessageArea.innerHTML = `total: ${playerSum} or ${playerSumA}, Dealer Sum: ${cpuHand[0].getValue()}`;
+        gameMessageArea.innerHTML = `Player Total: ${playerSum} or ${playerSumA} | Dealer Sum: ${cpuHand[0].getValue()}`;
     } else if (playerHand[0].getValue() > 1 && playerHand[1].getValue() > 1) {
-        gameMessageArea.innerHTML = `total: ${playerSum}, Dealer Sum: ${cpuHand[0].getValue()}`;
+        gameMessageArea.innerHTML = `Player Total: ${playerSum} | Dealer Total: ${cpuHand[0].getValue()}`;
     }
     checkForInitalWinner();
 }
@@ -148,7 +148,7 @@ function hit() {
         playerHand.push(deck[randNum]);
         playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
         playerSum += deck[randNum].getValue();
-        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuHand[0].getValue()}`;
+        gameMessageArea.innerHTML = `Player Total: ${playerSum} | Dealer Total: ${cpuHand[0].getValue()}`;
         discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
         if (playerSum > 21) {
@@ -174,7 +174,7 @@ function stay() {
         cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
         cpuSum = cpuHand[0].getValue() + cpuHand[1].getValue();
-        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+        gameMessageArea.innerHTML = `Player Total: ${playerSum} | Dealer Total: ${cpuSum}`;
         playerStay = true;
     }
 }
@@ -186,7 +186,7 @@ function computerHit() {
             cpuHand.push(deck[randNum]);
             cpuArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
             cpuSum += deck[randNum].getValue();
-            gameMessageArea.innerHTML = `total: ${playerSum}, Dealer Sum: ${cpuSum}`;
+            gameMessageArea.innerHTML = `Player Total: ${playerSum} | Dealer Total: ${cpuSum}`;
             discardPile.push(deck[randNum]);
             deck.splice(randNum, 1);
         } else {
