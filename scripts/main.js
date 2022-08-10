@@ -164,17 +164,19 @@ function hit() {
 }
 
 function stay() {
-    playerStay = true;
-    if (playerSum < playerSumA && playerSumA <= 21) {
-        playerSum = playerSumA;
-    }
-    if (cpuStay === false) {
-        computerHit();
-    }
-    cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
+    if (!playerStay) {
+        if (playerSum < playerSumA && playerSumA <= 21) {
+            playerSum = playerSumA;
+        }
+        if (cpuStay === false) {
+            computerHit();
+        }
+        cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
     <img src=${cpuHand[1].getPicture()}>`;
-    cpuSum = cpuHand[0].getValue() + cpuHand[1].getValue();
-    gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+        cpuSum = cpuHand[0].getValue() + cpuHand[1].getValue();
+        gameMessageArea.innerHTML = `total: ${playerSum}, CPU Sum: ${cpuSum}`;
+        playerStay = true;
+    }
 }
 
 function computerHit() {
@@ -192,6 +194,7 @@ function computerHit() {
             clearInterval(interval);
         }
     }, 1000);
+
 }
 
 function checkForInitalWinner() {
@@ -207,6 +210,8 @@ function checkForInitalWinner() {
         cpuStay = true;
     } else if (playerSum === 21 || playerSumA === 21) {
         gameMessageArea.innerHTML = `Blackjack!! You won!`;
+        cpuArea.innerHTML = `<img src=${cpuHand[0].getPicture()}> 
+    <img src=${cpuHand[1].getPicture()}>`;
         playerStay = true;
         cpuStay = true;
     }
@@ -215,16 +220,28 @@ function checkForInitalWinner() {
 function checkForWinner() {
     if (cpuSum === 21 && playerSum === 21 || playerSumA === 21 && cpuSumA === 21) {
         gameMessageArea.innerHTML = `It's a tie! Both dealer and player have 21`;
+        playerStay = true;
+        cpuStay = true;
     }
     else if (playerSum > 21) {
         gameMessageArea.innerHTML = `Sorry you busted`;
-    } else if (cpuSum > 21 && playerSum < 21) {
+        playerStay = true;
+        cpuStay = true;
+    } else if (cpuSum > 21 && playerSum <= 21) {
         gameMessageArea.innerHTML = `Dealer busted! You won with: ${cpuSum}!`;
+        playerStay = true;
+        cpuStay = true;
     } else if (cpuSum > playerSum) {
         gameMessageArea.innerHTML = `The dealer wins with: ${cpuSum}`;
+        playerStay = true;
+        cpuStay = true;
     } else if (cpuSum < playerSum) {
         gameMessageArea.innerHTML = `Congratz! You won with: ${playerSum}!`;
+        playerStay = true;
+        cpuStay = true;
     } else if (cpuSum >= 17 && playerSum === cpuSum) {
-        gameMessageArea.innerHTML = `It's a tie! Both dealer and player had: ${playerSum}!`;
+        gameMessageArea.innerHTML = `It's a tie! Both dealer and player have: ${playerSum}!`;
+        playerStay = true;
+        cpuStay = true;
     }
 }
