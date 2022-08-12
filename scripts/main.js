@@ -13,7 +13,6 @@ let playerStay;
 let cpuStay;
 
 let deck = []; // the deck of cards from which the player and cpu are drawing from
-let discardPile = []; // the cards that have been already played
 let playerHand = []; // the cards that the player currently holds
 let cpuHand = []; // the cards that the cpu currently holds
 
@@ -90,11 +89,9 @@ function initialDeal() {
     for (let i = 0; i <= 1; i++) {
         let randNum = Math.floor(Math.random() * deck.length);
         playerHand.push(deck[randNum]);
-        discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
         randNum = Math.floor(Math.random() * deck.length);
         cpuHand.push(deck[randNum]);
-        discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
         if (playerHand[i].getValue() === 1) {
             playerSum += playerHand[i].getValue();
@@ -124,6 +121,7 @@ function initialDeal() {
     checkForInitalWinner();
 }
 
+// resets everything to its default value
 function newGame() {
     playerSum = 0;
     playerSumA = 0;
@@ -132,7 +130,6 @@ function newGame() {
     playerStay = false;
     cpuStay = false;
     deck = [];
-    discardPile = [];
     playerHand = [];
     cpuHand = [];
     createHearts();
@@ -142,6 +139,7 @@ function newGame() {
     initialDeal();
 }
 
+// gives the player another card, checks if their score i higher than 21
 function hit() {
     if (playerStay === false && playerSum < 21) {
         randNum = Math.floor(Math.random() * deck.length);
@@ -149,7 +147,6 @@ function hit() {
         playerArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
         playerSum += deck[randNum].getValue();
         gameMessageArea.innerHTML = `Player Total: ${playerSum} | Dealer Total: ${cpuHand[0].getValue()}`;
-        discardPile.push(deck[randNum]);
         deck.splice(randNum, 1);
         if (playerSum > 21) {
             gameMessageArea.innerHTML = `Sorry you busted.`;
@@ -163,6 +160,7 @@ function hit() {
     }
 }
 
+// stops the player from being able to get more cards, checks if the player has an ace and assigns the higher value (11 instead of 1) if the player stays and doesnt break 21
 function stay() {
     if (!playerStay) {
         if (playerSum < playerSumA && playerSumA <= 21) {
@@ -179,6 +177,7 @@ function stay() {
     }
 }
 
+// gives the computer a new card every second until they have atleast 17 points or break 21
 function computerHit() {
     let interval = setInterval(() => {
         if (cpuSum < 17) {
@@ -187,7 +186,6 @@ function computerHit() {
             cpuArea.insertAdjacentHTML('beforeend', `<img src=${deck[randNum].getPicture()}>`);
             cpuSum += deck[randNum].getValue();
             gameMessageArea.innerHTML = `Player Total: ${playerSum} | Dealer Total: ${cpuSum}`;
-            discardPile.push(deck[randNum]);
             deck.splice(randNum, 1);
         } else {
             checkForWinner();
@@ -197,6 +195,7 @@ function computerHit() {
 
 }
 
+// checks for anyone with a blackjack after the first deal
 function checkForInitalWinner() {
     if (cpuSum === 21 && playerSum === 21 || playerSumA === 21 && cpuSumA === 21) {
         gameMessageArea.innerHTML = `It's a tie!`;
@@ -217,6 +216,7 @@ function checkForInitalWinner() {
     }
 }
 
+// checks if anyone met a win condition
 function checkForWinner() {
     if (cpuSum === 21 && playerSum === 21 || playerSumA === 21 && cpuSumA === 21) {
         gameMessageArea.innerHTML = `It's a tie! Both dealer and player have 21`;
